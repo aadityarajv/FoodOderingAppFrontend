@@ -68,30 +68,45 @@ class Header extends Component {
         this.state = {
             modalIsOpen: false,
             value: 0,
-            username: "",
+            contactNo: "",
             password: "",
-            usernameRequired: "dispNone",
+            contactNoRequired: "dispNone",
             passwordRequired: "dispNone",
-            loginError:"dispNone",
-            loginErrorMsg:"",
-            errorCode:"",
-            email: "",
-            firstname: "",
-            lastname: ""
-           
+            loginErrorMsg: "",
+            loginErrorMessageRequired: "dispNone",
+
+
+
 
         }
     }
     loginClickHandler = () => {
-       
-        this.state.username === "" ? this.setState({ usernameRequired: "dispBlock" }) : this.setState({ usernameRequired: "dispNone" });
-        this.state.password === "" ? this.setState({ passwordRequired: "dispBlock" }) : this.setState({ passwordRequired: "dispNone" });
-        
-    
-  
-    
-       
-        
+
+
+        this.state.contactNo === "" ? this.setState({ contactNoRequired: "dispBlock" }) : this.setState({ contactNoRequired: "dispNone" })
+        this.state.password === "" ? this.setState({ passwordRequired: "dispBlock" }) : this.setState({ passwordRequired: "dispNone" })
+        this.state.loginErrorMsg === "" ? this.setState({ loginErrorMessageRequired: "dispBlock" }) : this.setState({ loginErrorMessageRequired: "dispNone" })
+
+        if (this.state.contactNo === "" || this.state.password === "") { return }
+
+
+        var phoneno = /^\d{10}$/;
+        if ((this.state.contactNo.length !== 10) && (!phoneno.test(this.state.contactNo))) {
+
+            this.setState({
+                loginErrorMsg: "Invalid Contact"
+            })
+            this.setState({
+                loginErrorCode: "ATH-001"
+
+            })
+            return;
+        }
+
+
+
+
+
     }
 
     inputUsernameChangeHandler = (e) => {
@@ -103,10 +118,13 @@ class Header extends Component {
             modalIsOpen: true
         })
         this.setState({ value: 0 });
-        this.setState({ username: "" });
+        this.setState({ contactNo: "" });
         this.setState({ password: "" });
-        this.setState({ usernameRequired: "dispNone" });
+        this.setState({ contactNoRequired: "dispNone" });
         this.setState({ passwordRequired: "dispNone" });
+        this.setState({ loginErrorMsg: "" })
+        this.setState({ loginError: "" })
+        this.setState({ loginErrorCode: "" })
 
 
     }
@@ -123,9 +141,9 @@ class Header extends Component {
 
 
 
-    inputUsernameChangeHandler = (e) => {
+    inputContactChangeHandler = (e) => {
         this.setState({
-            username: e.target.value
+            contactNo: e.target.value
         })
     }
 
@@ -166,16 +184,22 @@ class Header extends Component {
                 <Modal ariaHideApp={false} isOpen={this.state.modalIsOpen} contentLabel="Login" onRequestClose={this.closeModalHandler} style={customStyles}>
                     <Tabs className="tabs" value={this.state.value} onChange={this.tabChangeHandler}>
                         <Tab label="Login" />
-
-                        <Tab label="Register" />
+                        <Tab label="Sign-up" />
                     </Tabs>
-                {this.state.value === 0 &&
+                    {this.state.value === 0 &&
                         <TabContainer>
                             <FormControl required className={classes.formControl}>
                                 <InputLabel htmlFor="username">Contact No.</InputLabel>
-                                <Input id="username" type="text" username={this.state.username} onChange={this.inputUsernameChangeHandler} />
-                                <FormHelperText className={this.state.usernameRequired}><span className="red">required</span></FormHelperText>
-                                </FormControl><br />
+                                <Input id="username" type="text" contactNo={this.state.contactNo} onChange={this.inputContactChangeHandler} />
+                                <FormHelperText className={this.state.contactNoRequired}><span className="red">required</span></FormHelperText>
+                                {this.state.loginErrorCode === "ATH-001" ?
+                                    <FormControl className={classes.formControl}>
+                                        <Typography variant="subtitle1" color="error" className={this.state.loginErrorMessageRequired} align="left">{this.state.loginErrorMsg}</Typography>
+                                    </FormControl> : ""}
+                            </FormControl>
+
+
+
 
                             <FormControl required className={classes.formControl}>
                                 <InputLabel htmlFor="password">Password</InputLabel>
