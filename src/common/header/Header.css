@@ -1,0 +1,58 @@
+.app-header{
+    
+    background-color: #263238;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+justify-content: space-between;
+flex-wrap: wrap;
+}
+
+
+.app-header-logo{
+    color:white;
+    font-size: 18px;
+    align-self: center;
+}
+
+
+.search-icon {
+    padding: 0px;
+    align-self: center;
+  }
+.app-header-searchbar {
+    display: flex;
+    background: #263238;
+    border-radius: 4px;
+    width: 230px;
+    margin-right: 60px;
+    padding: 2px;
+    height: 20%;
+  }
+  
+@media only screen and (max-width: 1000px) {
+    .app-header {
+    background-color: #263238;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    }
+    .menuDrop{
+      margin-top: 52px !important;
+    }
+  }
+  .tabs {
+    margin-bottom: 20px;
+  }
+  .dispNone{
+    display: none;
+  }
+  
+  .dispBlock {
+    display: block;
+  }
+  .red
+{
+    color: red;
+}
