@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Header from '../../common/header/Header'
 import './Home.css';
-
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,12 +9,16 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+
+
 const styles = theme => ({
     media: {
         height: 140
     },
 });
-export class Home extends Component {
+
+
+class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,9 +28,9 @@ export class Home extends Component {
         }
     }
 
+
+    //Method to fetch Restaurant details
     componentWillMount() {
-
-
         let dataUserProfile = null;
         let xhrUserProfile = new XMLHttpRequest();
         let that = this;
@@ -48,7 +51,7 @@ export class Home extends Component {
         this.props.history.push("/restaurant/" + restaurant_id);
     };
 
-
+    //Method for Implementing Search functionality on restaurant names
     searchFilter = (e) => {
 
         const _searchText = (e.target.value).toLowerCase();
@@ -98,7 +101,7 @@ export class Home extends Component {
                                                     </div>
                                                     <div>
                                                         <i className="fa fa-inr"></i>{restaurant.average_price} for two
-                                        </div>
+                                                    </div>
                                                 </div>
 
                                             </CardContent>
