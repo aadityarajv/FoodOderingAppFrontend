@@ -15,6 +15,10 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import PropTypes from 'prop-types';
 
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import Snackbar from '@material-ui/core/Snackbar';
+
 const styles = {
     root: {
         color: "#FFFFFF"
@@ -87,8 +91,19 @@ class Header extends Component {
             registerPasswordRequired: "dispNone",
             emailErrorMsg: " ",
             registerContactErrorMsg: "",
-            registerPasswordErrorMsg: ""
-
+            registerPasswordErrorMsg: "",
+            loggedIn:sessionStorage.getItem('access-token') == null ? false : true,
+            
+            open: false,
+            anchorEl: null,
+            snackBarOpen: false,
+            snackBarMessage: '',
+            signupSuccess: false,
+            signupErrorMessage:"",
+            signupErrorMessageRequired:"dispNone",
+            loginResponse:"",
+            loginErroMessage:'',
+            loginErroMessageRequired:''
 
 
         }
@@ -115,8 +130,9 @@ class Header extends Component {
             })
             return;
         }
-
     }
+        
+
     
     signUpClickHandler = () => {
 
@@ -160,11 +176,39 @@ class Header extends Component {
         this.setState({registerContactRequired:"dispBlock"})
             this.setState({registerContactErrorMsg:"required"})
     }
+
+
+    
     }
+
+
+clearSignupForm = () => {
+    this.setState({
+        firstname: "",
+        firstnameRequired: "dispNone",
+        lastname: "",
+        lastnameRequired:"dispNone",
+        email: "",
+        emailRequired: "dispNone",
+        registerPassword: "",
+        registerPasswordRequired: "dispNone",
+        registerContact: "",
+        registerContactRequired: "dispNone",
+        signupErrorMessage: "",
+        signupErrorMessageRequired: "dispNone",
+    });
+}
     
 
 
-
+    snackBarHandler = (message) => {
+        // if any snackbar open already close that
+        this.setState({ snackBarOpen: false});
+        // updating component state snackbar message
+        this.setState({ snackBarMessage: message});
+        // Show snackbar
+        this.setState({ snackBarOpen: true});
+    }
 
 
     inputUsernameChangeHandler = (e) => {
@@ -188,17 +232,21 @@ class Header extends Component {
             lastnameRequired: "dispNone",
             email: "",
             emailRequired: "dispNone",
-            emailErrorCode: "",
+            
             emailErrorMessageRequired: "dispNone",
             registerContact: "",
             registerContactRequired: "dispNone",
             registerPassword: "",
             registerPasswordRequired: "dispNone",
 
-            passwordErrorCode: "",
+             
             passwordErrorMessageRequired: "dispNone",
-            passwordErrorMsg: ""
-
+            passwordErrorMsg: "",
+            signupSuccess: false,
+            loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
+            anchorEl: null,
+            snackBarOpen: false,
+            snackBarMessage: '',
         })
 
 
@@ -339,7 +387,30 @@ class Header extends Component {
                     }
 
                 </Modal>
-
+                <Snackbar 
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }} 
+                        open={this.state.snackBarOpen} 
+                        autoHideDuration={6000}  
+                        onClose={() => this.setState({ snackBarOpen: false })}
+                        ContentProps={{
+                            'aria-describedby': 'message-id',
+                        }}
+                        message={<span id="message-id">{this.state.snackBarMessage}</span>}
+                        action={[
+                            <IconButton
+                                key="close"
+                                aria-label="Close"
+                                color="inherit"
+                                // className={classes.close}
+                                onClick={() => this.setState({ snackBarOpen: false })}
+                                >
+                                <CloseIcon />
+                            </IconButton>
+                        ]}
+                     />  
             </div>
         )
     }
