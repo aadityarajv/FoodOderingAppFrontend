@@ -308,14 +308,15 @@ clearSignupForm = () => {
             <div className="app-header">
                 <span className="app-header-logo">
                     <Fastfood /></span>
+                    {this.props.showSearch &&
                 <div className="app-header-searchbar">
                     <ThemeProvider theme={theme}>
                         <div className="search-icon">
                             <SearchIcon style={{ color: "#FFFFFF" }} />
                         </div>
-                        <Input placeholder="Search By Restaurant Name" className={classes.searchInput} />
+                        <Input placeholder="Search By Restaurant Name" className={classes.searchInput} onChange={this.props.searchChangeHandler} />
                     </ThemeProvider>
-                </div>
+                </div>}
                 <div className={classes.headerLoginBtn}>
                     <Button color="default" variant="contained" onClick={this.openModalHandler}> <AccountCircleIcon />Login</Button>
                 </div>
